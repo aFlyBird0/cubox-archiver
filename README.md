@@ -4,7 +4,7 @@
 
 我没有太多其他需求（如标注），只是想在读完后点击「归档」，并把归档内容作为一个知识库，以后可以通过标题和描述快速检索。
 
-但 Cubox 归档的内容也占总数据条数（200）。
+但 Cubox 免费版限制总数据条数200，归档的内容也会占用容量，开会员的话一年要 98。
 
 所以我写了这个程序，用来把 Cubox 的归档内容自动同步到其他地方（Notion等），然后再把 Cubox 的归档内容删除了。
 
@@ -24,10 +24,9 @@
 
 ## 使用
 
-先去 [Release 页](https://github.com/aFlyBird0/cubox-archiver)下载二进制文件。
+先去 [Release 页](https://github.com/aFlyBird0/cubox-archiver/releases)下载二进制文件。
 
-如果使用 Notion 作为归档器（虽然现在只支持Notion），
-请先创建一个 Notion 机器人，然后选定一个页面把机器人 Connection 进来。
+如果使用 Notion 作为归档器（虽然现在只支持Notion），请先创建一个 Notion 机器人，然后选定一个页面把机器人 Connection 进来。
 
 1. 运行一次程序，传入 page id，这时候会提示你已经自动创建了一个新数据库
 2. 把新数据库的 database id 写到配置文件里，再运行，就真正启动了
@@ -58,4 +57,4 @@
 ## 后续计划
 
 * [ ] 支持更多归档器
-* 做成 GitHub Action，自动定期运行
+* [ ] 做成 GitHub Action，自动定期运行
