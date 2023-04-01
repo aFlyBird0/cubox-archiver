@@ -7,9 +7,9 @@ before:
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
-  - id: "github.com/aFlyBird0/cubox-archiver"
+  - id: "cubox-archiver"
     main: ./
-    binary: "github.com/aFlyBird0/cubox-archiver"
+    binary: "cubox-archiver"
     env:
       - CGO_ENABLED=0
     goos:
@@ -37,4 +37,4 @@ changelog:
 release:
   extra_files:
     - glob: "README.md"
-    - glob: "
+    - glob: "config.example.yaml"
