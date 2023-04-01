@@ -24,7 +24,7 @@
 
 ## 使用
 
-先去 [Release 页](https://github.com/aFlyBird0/cubox-archiver/releases)下载二进制文件。
+先去 [Release 页](https://github.com/aFlyBird0/cubox-archiver/releases)下载二进制文件，Linux 和 macOS 用 `chmod +x` 给可执行权限。
 
 如果使用 Notion 作为归档器（虽然现在只支持Notion），请先创建一个 Notion 机器人，然后选定一个页面把机器人 Connection 进来。
 
@@ -36,7 +36,7 @@
 ### 用文件传入配置
 
 ```bash
-./github.com/aFlyBird0/cubox-archiver from-file -f config.yaml
+./cubox-archiver from-file -f config.yaml
 ```
 
 具体配置看 `config.example.yaml`。
@@ -44,7 +44,7 @@
 ### 用命令行参数一个个传入配置
 
 ```bash
-./github.com/aFlyBird0/cubox-archiver from-flag --help
+./cubox-archiver from-flag --help
 ```
 
 然后根据提示自己拼参数。对于参数的详细解释，可以看 `config.example.yaml`。
