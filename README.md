@@ -22,6 +22,14 @@
 * [ ] CSV 文件（写了一半，去重逻辑还没写，建议用于测试）
 * [ ] 数据库
 
+## 效果
+
+![Notion归档效果](images/notion.png)
+
+你要是愿意建立一个 gallery 视图，并且把 Cover 字段设置为预览的话，就可以看到这样的效果：
+
+![Notion归档效果-画廊](images/notion-gallery.png)
+
 ## 使用
 
 先去 [Release 页](https://github.com/aFlyBird0/cubox-archiver/releases)下载二进制文件，Linux 和 macOS 用 `chmod +x` 给可执行权限。
