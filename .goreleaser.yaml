@@ -8,7 +8,7 @@ before:
     - go generate ./...
 builds:
   - id: "cubox-archiver"
-    main: ./
+    main: ./cmd
     binary: "cubox-archiver"
     env:
       - CGO_ENABLED=0
