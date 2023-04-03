@@ -94,7 +94,7 @@ func init() {
 	rootCmd.AddCommand(fromFileCmd)
 	rootCmd.AddCommand(fromFlagCmd)
 
-	fromFileCmd.Flags().StringVarP(&cfgFile, "file", "f", "Config.yaml", "配置文件路径")
+	fromFileCmd.Flags().StringVarP(&cfgFile, "file", "f", "config.yaml", "配置文件路径")
 
 	fromFlagCmd.Flags().StringVarP(&cuboxAuth, "cubox-auth", "a", "", "Cubox Auth")
 	fromFlagCmd.Flags().StringVarP(&cuboxCookie, "cubox-cookie", "c", "", "Cubox Cookie")
