@@ -1,13 +1,21 @@
 package config
 
 type Config struct {
-	Cubox                CuboxConfig  `yaml:"cubox"`
-	Notion               NotionConfig `yaml:"notion"`
-	DeleteCuboxAfterSave bool         `yaml:"deleteCuboxAfterSave"` // 是否在保存后删除Cubox
+	Cubox CuboxConfig `yaml:"cubox"`
+	//Notion               NotionConfig `yaml:"notion"`
+	//DeleteCuboxAfterSave bool         `yaml:"deleteCuboxAfterSave"` // 是否在保存后删除Cubox
+	Archivers []Archiver `yaml:"archivers"`
+}
+
+type Archiver struct {
+	Type                 string            `yaml:"type"`
+	Enable               bool              `yaml:"enable"`
+	DeleteCuboxAfterSave bool              `yaml:"deleteCuboxAfterSave"` // 是否在保存后删除Cubox
+	Options              map[string]string `yaml:"options"`
 }
 
 type CuboxConfig struct {
-	Auth   string // Cubox Authorization Header
+	Auth   string // Cubox Authorization Header	`
 	Cookie string
 }
 

@@ -1,4 +1,4 @@
-package util
+package cubox
 
 import "github.com/parnurzeal/gorequest"
 

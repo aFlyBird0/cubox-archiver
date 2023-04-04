@@ -3,8 +3,8 @@ package stdout
 import (
 	"github.com/sirupsen/logrus"
 
-	"github.com/aFlyBird0/cubox-archiver/cubox"
-	"github.com/aFlyBird0/cubox-archiver/operator"
+	"github.com/aFlyBird0/cubox-archiver/core"
+	"github.com/aFlyBird0/cubox-archiver/core/cubox"
 )
 
 type StdoutOperator struct {
@@ -19,4 +19,4 @@ func (s StdoutOperator) Operate(item *cubox.Item) error {
 	return nil
 }
 
-var _ operator.Operator = &StdoutOperator{}
+var _ core.Operator = &StdoutOperator{}

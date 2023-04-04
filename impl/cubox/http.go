@@ -1,4 +1,4 @@
-package source
+package cubox
 
 // cuboxItemRaw 网页接口获得的数据结构
 type cuboxItemRaw struct {

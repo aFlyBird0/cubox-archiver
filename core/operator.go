@@ -1,14 +1,14 @@
-package operator
+package core
 
 import (
 	"github.com/reugn/go-streams"
 	"github.com/sirupsen/logrus"
 
-	"github.com/aFlyBird0/cubox-archiver/cubox"
+	"github.com/aFlyBird0/cubox-archiver/core/cubox"
 )
 
 type Operator interface {
-	Operate(item *cubox.Item) error
+	Operate(item *cubox.Item) error // 处理单个数据
 }
 
 type OperatorChain struct {

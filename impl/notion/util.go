@@ -5,7 +5,7 @@ import (
 
 	"github.com/jomei/notionapi"
 
-	"github.com/aFlyBird0/cubox-archiver/cubox"
+	"github.com/aFlyBird0/cubox-archiver/core/cubox"
 )
 
 func convertTags(tags []cubox.Tag) notionapi.MultiSelectProperty {

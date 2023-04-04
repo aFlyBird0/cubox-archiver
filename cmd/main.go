@@ -8,7 +8,7 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"github.com/aFlyBird0/cubox-archiver/config"
-	"github.com/aFlyBird0/cubox-archiver/core"
+	"github.com/aFlyBird0/cubox-archiver/run"
 )
 
 func main() {
@@ -49,7 +49,7 @@ var fromFileCmd = &cobra.Command{
 		logrus.Info("配置读取成功")
 		//logrus.Infof("%+v\n", cfg)
 
-		core.Run(cfg)
+		run.Run(cfg)
 	},
 }
 
@@ -57,12 +57,13 @@ var (
 	cuboxAuth   string
 	cuboxCookie string
 
+	notionEnabled      bool
 	notionToken        string
 	notionPageID       string
 	notionDatabaseID   string
 	notionDatabaseName string
 
-	deleteCuboxAfterSave bool
+	deleteCuboxAfterSaveToNotion bool
 )
 
 var fromFlagCmd = &cobra.Command{
@@ -75,18 +76,24 @@ var fromFlagCmd = &cobra.Command{
 				Auth:   cuboxAuth,
 				Cookie: cuboxCookie,
 			},
-			Notion: config.NotionConfig{
-				Token:        notionToken,
-				PageID:       notionPageID,
-				DatabaseID:   notionDatabaseID,
-				DatabaseName: notionDatabaseName,
-			},
-			DeleteCuboxAfterSave: deleteCuboxAfterSave,
+		}
+		if notionEnabled {
+			cfg.Archivers = append(cfg.Archivers, config.Archiver{
+				Type:   "notion",
+				Enable: notionEnabled,
+				Options: map[string]string{
+					"token":        notionToken,
+					"pageID":       notionPageID,
+					"databaseID":   notionDatabaseID,
+					"databaseName": notionDatabaseName,
+				},
+				DeleteCuboxAfterSave: deleteCuboxAfterSaveToNotion,
+			})
 		}
 
 		logrus.Info("配置读取成功")
 		//logrus.Infof("%+v\n", cfg)
-		core.Run(cfg)
+		run.Run(cfg)
 	},
 }
 
@@ -99,10 +106,10 @@ func init() {
 	fromFlagCmd.Flags().StringVarP(&cuboxAuth, "cubox-auth", "a", "", "Cubox Auth")
 	fromFlagCmd.Flags().StringVarP(&cuboxCookie, "cubox-cookie", "c", "", "Cubox Cookie")
 
+	fromFlagCmd.Flags().BoolVarP(&notionEnabled, "archiver-notion-enable", "e", false, "是否启用Notion")
 	fromFlagCmd.Flags().StringVarP(&notionToken, "notion-token", "t", "", "Notion Token")
 	fromFlagCmd.Flags().StringVarP(&notionPageID, "notion-page-id", "p", "", "Notion Page ID，将在该Page下自动创建Database")
 	fromFlagCmd.Flags().StringVarP(&notionDatabaseID, "notion-database-id", "d", "", "Notion Database ID")
 	fromFlagCmd.Flags().StringVarP(&notionDatabaseName, "notion-database-name", "n", "Cubox归档", "Notion Database Name")
-
-	fromFlagCmd.Flags().BoolVarP(&deleteCuboxAfterSave, "delete-cubox-after-save", "s", false, "是否在保存后删除Cubox")
+	fromFlagCmd.Flags().BoolVarP(&deleteCuboxAfterSaveToNotion, "delete-cubox-after-save-to-notion", "s", false, "是否在保存到Notion后删除Cubox")
 }

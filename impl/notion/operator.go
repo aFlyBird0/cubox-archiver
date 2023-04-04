@@ -6,34 +6,23 @@ import (
 	"strings"
 
 	"github.com/jomei/notionapi"
+	"github.com/sirupsen/logrus"
 
-	"github.com/aFlyBird0/cubox-archiver/cubox"
+	"github.com/aFlyBird0/cubox-archiver/core/cubox"
 	"github.com/aFlyBird0/cubox-archiver/util"
 )
 
-type Operator struct {
-	dbID   string
-	client *notionapi.Client
-}
-
-func NewNotionOperator(token, dbID string) (*Operator, error) {
-	client := notionapi.NewClient(notionapi.Token(token))
-	return &Operator{
-		dbID:   dbID,
-		client: client,
-	}, nil
-}
-
-func (o *Operator) Operate(item *cubox.Item) error {
+func (o *Archiver) Operate(item *cubox.Item) error {
 	_, err := o.createNewPage(item)
 	if err != nil {
 		return fmt.Errorf("create new page: %w", err)
 	}
+	logrus.Info("成功将【", item.Title, "】同步到Notion")
 
 	return nil
 }
 
-func (o *Operator) createNewPage(item *cubox.Item) (*notionapi.Page, error) {
+func (o *Archiver) createNewPage(item *cubox.Item) (*notionapi.Page, error) {
 	properties := map[string]notionapi.Property{
 		// todo 把这里的属性名换成常量，在创建数据库的时候也要用到
 		"Name": notionapi.TitleProperty{
@@ -123,7 +112,7 @@ func (o *Operator) createNewPage(item *cubox.Item) (*notionapi.Page, error) {
 	pageReq := notionapi.PageCreateRequest{
 		Parent: notionapi.Parent{
 			Type:       notionapi.ParentTypeDatabaseID,
-			DatabaseID: notionapi.DatabaseID(o.dbID),
+			DatabaseID: notionapi.DatabaseID(o.databaseID),
 		},
 		Properties: properties,
 	}

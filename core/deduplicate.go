@@ -1,36 +1,6 @@
-package filter
+package core
 
-import "github.com/aFlyBird0/cubox-archiver/cubox"
-
-// NewFilterAllRemain 保留所有
-func NewFilterAllRemain() *AllRemain {
-	return &AllRemain{}
-}
-
-type AllRemain struct {
-}
-
-func (f *AllRemain) Remain(item *cubox.Item) bool {
-	return true
-}
-
-type FirstN struct {
-	n int
-}
-
-// NewFilterFirstN 保留前 n 个
-func NewFilterFirstN(n int) *FirstN {
-	return &FirstN{n: n}
-}
-
-func (f *FirstN) Remain(item *cubox.Item) bool {
-	if f.n <= 0 {
-		return false
-	}
-
-	f.n--
-	return true
-}
+import "github.com/aFlyBird0/cubox-archiver/core/cubox"
 
 type Deduplicate struct {
 	keys map[string]struct{}
@@ -52,6 +22,15 @@ func NewDeduplicateWithKeys(keys map[string]struct{}) *Deduplicate {
 	return &Deduplicate{
 		keys: keys,
 	}
+}
+
+func NewDeduplicateWithKeysInitiator(initiator KeysInitiator) (*Deduplicate, error) {
+	keys, err := initiator.ExistingKeys()
+	if err != nil {
+		return nil, err
+	}
+
+	return NewDeduplicateWithKeys(keys), nil
 }
 
 func (d *Deduplicate) Remain(item *cubox.Item) bool {

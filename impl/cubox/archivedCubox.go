@@ -1,4 +1,4 @@
-package source
+package cubox
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"github.com/parnurzeal/gorequest"
 	"github.com/sirupsen/logrus"
 
-	"github.com/aFlyBird0/cubox-archiver/cubox"
+	"github.com/aFlyBird0/cubox-archiver/core/cubox"
 	"github.com/aFlyBird0/cubox-archiver/util"
 )
 
@@ -57,7 +57,7 @@ func (client *ArchivedCuboxSource) requestCubox(archiving bool, page int, lastBo
 		Param("page", strconv.FormatInt(int64(page), 10)).
 		Param("filters", "").
 		Param("archiving", strconv.FormatBool(archiving))
-	request = util.SetGoRequestHeader(request, client.auth, client.cookie)
+	request = SetGoRequestHeader(request, client.auth, client.cookie)
 	httpResp, body, errs := request.EndStruct(&dataResp)
 	if len(errs) > 0 {
 		logrus.Fatalln(fmt.Sprintf("failed to request cubox content, err: %v", errs))
@@ -139,7 +139,7 @@ func (client *ArchivedCuboxSource) convertCuboxItem(raw *cuboxItemRaw) (item *cu
 		getContentURL := "https://cubox.pro/c/api/bookmark/content"
 		request := gorequest.New().Get(getContentURL).Timeout(time.Second*10).
 			Param("bookmarkId", item.UserSearchEngineID)
-		request = util.SetGoRequestHeader(request, client.auth, client.cookie)
+		request = SetGoRequestHeader(request, client.auth, client.cookie)
 
 		type response struct {
 			Code int `json:"code"`
