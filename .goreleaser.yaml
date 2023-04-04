@@ -16,6 +16,108 @@ builds:
       - linux
       - windows
       - darwin
+#dockers:
+#  - use: buildx
+#    ids:
+#      - cubox-archiver
+#    goos: linux
+#    goarch: amd64
+#    image_templates:
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-amd64
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:latest-amd64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-amd64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:latest-amd64
+#    dockerfile: Dockerfile
+#    build_flag_templates:
+#      - --pull
+#      - --platform=linux/amd64
+#      - --label=cn.aflybird.image.created={{.Date}}
+#      - --label=cn.aflybird.image.title=cubox-archiver
+#      - --label=cn.aflybird.image.revision={{.ShortCommit}}
+#      - --label=cn.aflybird.image.version={{.Tag }}
+#      - --label=cn.aflybird.image.auth={{ .Env.USERNAME }}
+#  - use: buildx
+#    ids:
+#      - cubox-archiver
+#    goos: linux
+#    goarch: arm64
+#    image_templates:
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-arm64
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:latest-arm64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-arm64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:latest-arm64
+#    dockerfile: Dockerfile
+#    build_flag_templates:
+#      - --pull
+#      - --platform=linux/arm64
+#      - --label=cn.aflybird.image.created={{.Date}}
+#      - --label=cn.aflybird.image.title=cubox-archiver
+#      - --label=cn.aflybird.image.revision={{.ShortCommit}}
+#      - --label=cn.aflybird.image.version={{.Tag }}
+#      - --label=cn.aflybird.image.auth={{ .Env.USERNAME }}
+#  - use: buildx
+#    ids:
+#    - cubox-archiver
+#    goos: darwin
+#    goarch: arm64
+#    image_templates:
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-darwin-arm64
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:latest-darwin-arm64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-darwin-arm64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:latest-darwin-arm64
+#    dockerfile: Dockerfile
+#    build_flag_templates:
+#      - --pull
+#      - --platform=darwin/arm64
+#      - --label=cn.aflybird.image.created={{.Date}}
+#      - --label=cn.aflybird.image.title=cubox-archiver
+#      - --label=cn.aflybird.image.revision={{.ShortCommit}}
+#      - --label=cn.aflybird.image.version={{.Tag }}
+#      - --label=cn.aflybird.image.auth={{ .Env.USERNAME }}
+#  - use: buildx
+#    ids:
+#    - cubox-archiver
+#    goos: darwin
+#    goarch: amd64
+#    image_templates:
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-darwin-amd64
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:latest-darwin-amd64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-darwin-amd64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:latest-darwin-amd64
+#    dockerfile: Dockerfile
+#    build_flag_templates:
+#      - --pull
+#      - --platform=darwin/amd64
+#      - --label=cn.aflybird.image.created={{.Date}}
+#      - --label=cn.aflybird.image.title=cubox-archiver
+#      - --label=cn.aflybird.image.revision={{.ShortCommit}}
+#      - --label=cn.aflybird.image.version={{.Tag }}
+#      - --label=cn.aflybird.image.auth={{ .Env.USERNAME }}
+#docker_manifests:
+#  - name_template: ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}
+#    image_templates:
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-amd64
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-arm64
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-darwin-arm64
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-darwin-amd64
+#  - name_template: ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:latest
+#    image_templates:
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:latest-amd64
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:latest-arm64
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:latest-darwin-arm64
+#      - ghcr.io/{{ .Env.USERNAME }}/cubox-archiver:latest-darwin-amd64
+#  - name_template: docker.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}
+#    image_templates:
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-amd64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-arm64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-darwin-arm64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:{{ .Tag }}-darwin-amd64
+#  - name_template: docker.io/{{ .Env.USERNAME }}/cubox-archiver:latest
+#    image_templates:
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:latest-amd64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:latest-arm64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:latest-darwin-arm64
+#      - docker.io/{{ .Env.USERNAME }}/cubox-archiver:latest-darwin-amd64
 archives:
   - replacements:
       darwin: Darwin

@@ -5,10 +5,16 @@ on:
     # run only against tags
     tags:
       - '*'
+env:
+  DOCKERHUB_USERNAME: aflybird0
+  GHCR_USERNAME: aflybird0
+  USERNAME: aflybird0
+  IMAGE_NAME: cubox-archiver
+  TAG: ${{ github.ref_name }}
 
 permissions:
   contents: write
-  # packages: write
+  packages: write
   # issues: write
 
 jobs:
@@ -23,6 +29,18 @@ jobs:
         with:
           go-version: '>=1.20'
           cache: true
+#      - name: Login to DockerHub
+#        uses: docker/login-action@v1
+#        with:
+#          username: ${{ env.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      - name: Login to GitHub Container Registry
+#        uses: docker/login-action@v1
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
       # More assembly might be required: Docker logins, GPG, etc. It all depends
       # on your needs.
       - uses: goreleaser/goreleaser-action@v4
@@ -33,6 +51,8 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ env.USERNAME }}
           # Your GoReleaser Pro key, if you are using the 'goreleaser-pro'
           # distribution:
           # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
+          TAG: ${{ env.TAG }}

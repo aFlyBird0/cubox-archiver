@@ -30,32 +30,65 @@
 
 ![Notion归档效果-画廊](images/notion-gallery.png)
 
-## 使用
+## 基本使用
 
-先去 [Release 页](https://github.com/aFlyBird0/cubox-archiver/releases)下载二进制文件，Linux 和 macOS 用 `chmod +x` 给可执行权限。
+术语介绍：
 
-如果使用 Notion 作为归档器（虽然现在只支持Notion），请先创建一个 Notion 机器人，然后选定一个页面把机器人 Connection 进来。
+1. 程序形态：本质上是个命令行工具。可以下载二进制文件；也提供了 Docker 镜像，可以用 Docker、Kubernetes CronJob 等方式运行；也可以用定时的 GitHub Action 运行。
+2. 数据源：Cubox 的稍后读列表。（目前只支持归档后的数据）
+3. 归档器：把数据源的数据同步到其他地方的工具。一个数据源可以同时归档到多个归档器。
+4. 配置：可以通过配置文件传入配置，也可以通过命令行参数传入配置。
+
+## 支持的归档器
+
+### Notion
+
+请先创建一个 Notion 机器人，然后选定一个页面把机器人 Connection 进来。
 
 1. 运行一次程序，传入 page id，这时候会提示你已经自动创建了一个新数据库
 2. 把新数据库的 database id 写到配置文件里，再运行，就真正启动了
 
-配置相关往下看：
+### CSV 文件
 
-### 用文件传入配置
+开发中，建议仅用于测试。
+
+## 运行
+
+### 使用二进制文件
+
+先去 [Release 页](https://github.com/aFlyBird0/cubox-archiver/releases)下载二进制文件，Linux 和 macOS 用 `chmod +x` 给可执行权限。
+
+1. 用文件传入配置
 
 ```bash
 ./cubox-archiver from-file -f config.yaml
 ```
 
-具体配置看 `config.example.yaml`。
+参数的详细解释，看 `config.example.yaml`。
 
-### 用命令行参数一个个传入配置
+2. 用命令行参数一个个传入配置
 
 ```bash
 ./cubox-archiver from-flag --help
 ```
 
-然后根据提示自己拼参数。对于参数的详细解释，可以看 `config.example.yaml`。
+然后根据提示自己拼参数。
+
+### 使用 Docker(目前只支持linux)
+
+1. 用文件传入配置
+
+```bash
+docker run  -v <主机的配置文件绝对路径/config.yaml>:/config.yaml aflybird0/cubox-archiver:latest from-file -f config.yaml
+```
+
+2. 用命令行参数一个个传入配置
+
+```bash
+docker run aflybird0/cubox-archiver:latest from-flag --help
+```
+
+然后根据提示自己拼参数。
 
 ## 文档没写的
 
