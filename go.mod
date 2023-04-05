@@ -3,7 +3,7 @@ module github.com/aFlyBird0/cubox-archiver
 go 1.20
 
 require (
-	github.com/jomei/notionapi v1.11.0
+	github.com/jomei/notionapi v1.12.0
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/reugn/go-streams v0.9.0
 	github.com/sirupsen/logrus v1.9.0
