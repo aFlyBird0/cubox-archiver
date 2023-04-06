@@ -42,6 +42,7 @@ func Build(conf config.Config) (
 		}
 		// 如果配置了删除 cubox，则在 archiver 之后添加一个删除 cubox 的操作
 		if archiverConf.DeleteCuboxAfterSave {
+			logrus.Infof("归档器 %s 配置了保存成功后删除 cubox", archiverConf.Type)
 			archiver = archiverWithDelete(archiver, conf.Cubox.Auth, conf.Cubox.Cookie)
 		}
 		archivers = append(archivers, archiver)

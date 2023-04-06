@@ -4,9 +4,9 @@ cubox:
 archivers:
 - type: notion
   enable: true
+  deleteCuboxAfterSave: false # 是否归档成功后删除Cubox对应的文章，建议测试时false，正式使用true。只能有一个archiver设置为true。
   options:
     token: "" # https://developers.notion.com/docs
     pageID: ""  # 选定一个页面，会自动在该页面下创建一个数据库。然后将该数据库的ID填入下面的databaseID中
     databaseID: "" # 要归档的数据库的ID
     databaseName: "Cubox归档" # 如果要创建数据库，那么这里填写数据库的名称
-    deleteCuboxAfterSave: false # 是否归档成功后删除Cubox对应的文章，建议测试时false，正式使用true。只能有一个archiver设置为true。
