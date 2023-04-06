@@ -39,11 +39,17 @@
 3. 归档器：把数据源的数据同步到其他地方的工具。一个数据源可以同时归档到多个归档器。
 4. 配置：可以通过配置文件传入配置，也可以通过命令行参数传入配置。
 
+## 前置条件 - 获取 Cubox 的登录信息
+
+![Cubox登录信息获取](images/cubox-auth.png)
+
+进入 Cubox 网页，打开开发者工具（F12），找到 Network 选项卡，刷新页面，随便选一个网络请求，记录请求头的 `authorization` 和 `cookie` 对应的值。（后面需要传入配置文件或命令行参数中）
+
 ## 支持的归档器
 
 ### Notion
 
-请先创建一个 Notion 机器人，然后选定一个页面把机器人 Connection 进来。
+请先创建一个 Notion 机器人，然后选定一个页面把机器人 Connection 进来。详见 [Notioin API 官方文档](https://developers.notion.com/docs)
 
 1. 运行一次程序，传入 page id，这时候会提示你已经自动创建了一个新数据库
 2. 把新数据库的 database id 写到配置文件里，再运行，就真正启动了
@@ -89,11 +95,6 @@ docker run aflybird0/cubox-archiver:latest from-flag --help
 ```
 
 然后根据提示自己拼参数。
-
-## 文档没写的
-
-* 怎么扒 Cubox 的 Auth 和 Cookie（应该挺简单）
-* Notion 申请机器人和 Connection 的方法（看官网吧）
 
 ## 后续计划
 
