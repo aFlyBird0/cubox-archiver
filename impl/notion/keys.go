@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/jomei/notionapi"
+	"github.com/sirupsen/logrus"
 )
 
 func (o *Archiver) ExistingKeys() (map[string]struct{}, error) {
@@ -31,6 +32,7 @@ func (o *Archiver) ExistingKeys() (map[string]struct{}, error) {
 			break
 		}
 	}
+	logrus.Info("从Notion中获取到已存在的", len(keys), "条记录")
 
 	return keys, nil
 }

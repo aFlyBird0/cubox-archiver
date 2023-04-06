@@ -15,8 +15,12 @@ func Run(cfg config.Config) {
 	// 根据配置，构建处理链
 	getter, archivers := Build(cfg)
 
+	logrus.Info("数据源获取器，归档器构建完成，开始处理数据")
+
 	// 执行
 	Process(getter, archivers)
+
+	logrus.Info("所有处理完成，程序结束")
 }
 
 // Process 处理数据获取和归档

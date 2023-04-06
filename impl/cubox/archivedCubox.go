@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/parnurzeal/gorequest"
@@ -105,14 +106,23 @@ func (client *ArchivedCuboxSource) convertCuboxItem(raw *cuboxItemRaw) (item *cu
 	}
 	item.LittleIcon = raw.LittleIcon
 	for _, tag := range raw.Tags {
-		updateTime, _ := time.Parse("2006-01-02T15:04:05:000Z", tag.UpdateTime)
+		updateTime, err := convertTime(tag.UpdateTime)
+		if err != nil {
+			logrus.Errorf("convert time failed, err: %v", err)
+		}
 		item.Tags = append(item.Tags, cubox.Tag{TagID: tag.TagID, Name: tag.Name, Rank: tag.Rank, UpdateTime: updateTime, ParentId: tag.ParentId})
 	}
 	item.GroupId = raw.GroupId
 	item.GroupName = raw.GroupName
-	createTime, _ := time.Parse("2006-01-02T15:04:05:000-07:00", raw.CreateTime)
+	createTime, err := convertTime(raw.CreateTime)
+	if err != nil {
+		logrus.Errorf("convert time failed, err: %v", err)
+	}
 	item.CreateTime = createTime
-	updateTime, _ := time.Parse("2006-01-02T15:04:05:000-07:00", raw.UpdateTime)
+	updateTime, err := convertTime(raw.UpdateTime)
+	if err != nil {
+		logrus.Errorf("convert time failed, err: %v", err)
+	}
 	item.UpdateTime = updateTime
 	item.Status = raw.Status
 	//item.Finished = raw.Finished
@@ -120,7 +130,6 @@ func (client *ArchivedCuboxSource) convertCuboxItem(raw *cuboxItemRaw) (item *cu
 	item.Type = cubox.CuboxContentType(raw.Type)
 
 	// 把链接全部 encode 一下（因为Notion里的链接会被自动解码，导致去重失败）
-	var err error
 	item.TargetURL, err = util.EncodeURL(item.TargetURL)
 	if err != nil {
 		logrus.Errorf("encode url failed, err: %v", err)
@@ -167,6 +176,29 @@ func (client *ArchivedCuboxSource) convertCuboxItem(raw *cuboxItemRaw) (item *cu
 	}
 
 	return item
+}
+
+// 将时间字符串转换成 time.Time
+// 2022-07-31T01:26:33:603+08:00
+func convertTime(raw string) (time.Time, error) {
+	if raw == "" || raw == "null" {
+		return time.Time{}, nil
+	}
+
+	// 把倒数第二个冒号替换成点，以转换成标准的 RFC3339 格式
+	timeRFC3339 := formatTimeToRFC3339(raw)
+	createTime, err := time.Parse("2006-01-02T15:04:05.999Z07:00", timeRFC3339)
+	return createTime, err
+}
+
+// 把时间的倒数第二个冒号替换成点，以转换成标准的 RFC3339 格式
+func formatTimeToRFC3339(s string) string {
+	i := strings.LastIndex(s[:strings.LastIndex(s, ":")], ":")
+	if i == -1 {
+		return s
+	}
+
+	return s[:i] + "." + s[i+1:]
 }
 
 type cuboxItemResponse struct {
