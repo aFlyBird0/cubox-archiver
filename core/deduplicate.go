@@ -1,8 +1,13 @@
 package core
 
-import "github.com/aFlyBird0/cubox-archiver/core/cubox"
+import (
+	"sync"
+
+	"github.com/aFlyBird0/cubox-archiver/core/cubox"
+)
 
 type Deduplicate struct {
+	mu   sync.RWMutex
 	keys map[string]struct{}
 }
 
@@ -35,10 +40,15 @@ func NewDeduplicateWithKeysInitiator(initiator KeysInitiator) (*Deduplicate, err
 
 func (d *Deduplicate) Remain(item *cubox.Item) bool {
 	key := item.UserSearchEngineID
+	d.mu.RLock()
 	if _, ok := d.keys[key]; ok {
 		return false
 	}
+	d.mu.RUnlock()
+
+	d.mu.Lock()
 	d.keys[key] = struct{}{}
+	d.mu.Unlock()
 
 	return true
 }
