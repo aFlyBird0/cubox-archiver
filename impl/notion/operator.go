@@ -23,14 +23,16 @@ func (o *Archiver) Operate(item *cubox.Item) error {
 }
 
 func (o *Archiver) createNewPage(item *cubox.Item) (*notionapi.Page, error) {
+	nameText := notionapi.RichText{
+		Text: &notionapi.Text{Content: item.Title},
+	}
+	if item.TargetURL != "" {
+		nameText.Text.Link = &notionapi.Link{Url: item.TargetURL}
+	}
 	properties := map[string]notionapi.Property{
 		// todo 把这里的属性名换成常量，在创建数据库的时候也要用到
 		"Name": notionapi.TitleProperty{
-			Title: []notionapi.RichText{
-				{
-					Text: &notionapi.Text{Content: item.Title, Link: &notionapi.Link{Url: item.TargetURL}},
-				},
-			},
+			Title: []notionapi.RichText{nameText},
 		},
 		"CuboxID": notionapi.RichTextProperty{
 			RichText: []notionapi.RichText{
