@@ -8,7 +8,7 @@ require (
 	github.com/onsi/gomega v1.27.6
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/reugn/go-streams v0.9.0
-	github.com/sirupsen/logrus v1.9.0
+	github.com/sirupsen/logrus v1.9.2
 	github.com/spf13/cobra v1.6.1
 	go.uber.org/multierr v1.11.0
 	gopkg.in/yaml.v3 v3.0.1
