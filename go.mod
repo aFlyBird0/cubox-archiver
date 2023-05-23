@@ -12,7 +12,7 @@ require (
 	github.com/spf13/cobra v1.6.1
 	go.uber.org/multierr v1.11.0
 	gopkg.in/yaml.v3 v3.0.1
-	gorm.io/gorm v1.25.0
+	gorm.io/gorm v1.25.1
 )
 
 require (
