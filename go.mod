@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/jomei/notionapi v1.12.1
-	github.com/onsi/ginkgo/v2 v2.9.5
+	github.com/onsi/ginkgo/v2 v2.9.7
 	github.com/onsi/gomega v1.27.7
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/reugn/go-streams v0.9.0
