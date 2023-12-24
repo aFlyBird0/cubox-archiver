@@ -3,12 +3,11 @@ package core
 import (
 	"github.com/reugn/go-streams"
 	"github.com/sirupsen/logrus"
-
-	"github.com/aFlyBird0/cubox-archiver/core/cubox"
 )
 
+// Operator 能对 Cubox Item 进行处理
 type Operator interface {
-	Operate(item *cubox.Item) error // 处理单个数据
+	Operate(item *Item) error // 处理单个数据
 }
 
 type OperatorChain struct {
@@ -20,7 +19,7 @@ func NewOperatorChain(operators ...Operator) *OperatorChain {
 	return &OperatorChain{operators: operators}
 }
 
-func (c *OperatorChain) Operate(item *cubox.Item) error {
+func (c *OperatorChain) Operate(item *Item) error {
 	for _, operator := range c.operators {
 		err := operator.Operate(item)
 		if err != nil {
@@ -49,7 +48,7 @@ func NewOperatorSink(operator Operator, done chan<- struct{}) streams.Sink {
 // 处理主逻辑
 func (o *OperatorSink) init(done chan<- struct{}) {
 	for itemAny := range o.in {
-		item := itemAny.(*cubox.Item)
+		item := itemAny.(*Item)
 		err := o.operator.Operate(item)
 		if err != nil {
 			logrus.Errorf("operate item: %v, err: %v", item, err)

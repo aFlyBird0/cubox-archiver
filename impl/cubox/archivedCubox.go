@@ -10,7 +10,7 @@ import (
 	"github.com/parnurzeal/gorequest"
 	"github.com/sirupsen/logrus"
 
-	"github.com/aFlyBird0/cubox-archiver/core/cubox"
+	"github.com/aFlyBird0/cubox-archiver/core"
 	"github.com/aFlyBird0/cubox-archiver/util"
 )
 
@@ -23,9 +23,9 @@ type ArchivedCuboxSource struct {
 	cookie string
 }
 
-var _ = cubox.Source(&ArchivedCuboxSource{})
+var _ = core.Source(&ArchivedCuboxSource{})
 
-func (client *ArchivedCuboxSource) List(cuboxChan chan *cubox.Item) {
+func (client *ArchivedCuboxSource) List(cuboxChan chan *core.Item) {
 	const archiving = true
 	// 先请求第一页试试
 	items, pageCount, totalCounts := client.requestCubox(archiving, 1, "")
@@ -45,7 +45,7 @@ func (client *ArchivedCuboxSource) List(cuboxChan chan *cubox.Item) {
 	}
 }
 
-func (client *ArchivedCuboxSource) requestCubox(archiving bool, page int, lastBookmarkId string) (res []*cubox.Item, pageCount, totalCount int) {
+func (client *ArchivedCuboxSource) requestCubox(archiving bool, page int, lastBookmarkId string) (res []*core.Item, pageCount, totalCount int) {
 	const url = "https://cubox.pro/c/api/v2/search_engine/my"
 
 	dataResp := cuboxItemResponse{}
@@ -67,7 +67,7 @@ func (client *ArchivedCuboxSource) requestCubox(archiving bool, page int, lastBo
 		logrus.Fatalln(fmt.Sprintf("failed to request cubox content, http code: %v, body: %v", httpResp.StatusCode, body))
 	}
 
-	res = make([]*cubox.Item, 0, len(dataResp.Data))
+	res = make([]*core.Item, 0, len(dataResp.Data))
 
 	for _, itemRaw := range dataResp.Data {
 		if itemRaw != nil {
@@ -78,7 +78,7 @@ func (client *ArchivedCuboxSource) requestCubox(archiving bool, page int, lastBo
 	return res, dataResp.PageCount, dataResp.TotalCounts
 }
 
-func (client *ArchivedCuboxSource) handleNextPages(cuboxChan chan<- *cubox.Item, archiving bool, pageCount int, lastBookmarkId string) {
+func (client *ArchivedCuboxSource) handleNextPages(cuboxChan chan<- *core.Item, archiving bool, pageCount int, lastBookmarkId string) {
 	for page := 2; page <= pageCount; page += 1 {
 		time.Sleep(time.Second * 1)
 		items, _, _ := client.requestCubox(archiving, page, lastBookmarkId)
@@ -93,8 +93,8 @@ func (client *ArchivedCuboxSource) handleNextPages(cuboxChan chan<- *cubox.Item,
 }
 
 // 将 cuboxItemRaw 转换成 Item
-func (client *ArchivedCuboxSource) convertCuboxItem(raw *cuboxItemRaw) (item *cubox.Item) {
-	item = &cubox.Item{}
+func (client *ArchivedCuboxSource) convertCuboxItem(raw *cuboxItemRaw) (item *core.Item) {
+	item = &core.Item{}
 	item.UserSearchEngineID = raw.UserSearchEngineID
 	item.Title = raw.Title
 	item.Description = raw.Description
@@ -110,7 +110,7 @@ func (client *ArchivedCuboxSource) convertCuboxItem(raw *cuboxItemRaw) (item *cu
 		if err != nil {
 			logrus.Errorf("convert time failed, err: %v", err)
 		}
-		item.Tags = append(item.Tags, cubox.Tag{TagID: tag.TagID, Name: tag.Name, Rank: tag.Rank, UpdateTime: updateTime, ParentId: tag.ParentId})
+		item.Tags = append(item.Tags, core.Tag{TagID: tag.TagID, Name: tag.Name, Rank: tag.Rank, UpdateTime: updateTime, ParentId: tag.ParentId})
 	}
 	item.GroupId = raw.GroupId
 	item.GroupName = raw.GroupName
@@ -127,7 +127,7 @@ func (client *ArchivedCuboxSource) convertCuboxItem(raw *cuboxItemRaw) (item *cu
 	item.Status = raw.Status
 	//item.Finished = raw.Finished
 	//item.InBlackOrWhiteList = raw.InBlackOrWhiteList
-	item.Type = cubox.CuboxContentType(raw.Type)
+	item.Type = core.CuboxContentType(raw.Type)
 
 	// 把链接全部 encode 一下（因为Notion里的链接会被自动解码，导致去重失败）
 	item.TargetURL, err = util.EncodeURL(item.TargetURL)
@@ -144,7 +144,7 @@ func (client *ArchivedCuboxSource) convertCuboxItem(raw *cuboxItemRaw) (item *cu
 	}
 
 	// 单独处理文本和随手记类型的内容
-	if item.Type == cubox.Text || item.Type == cubox.ShortHand {
+	if item.Type == core.Text || item.Type == core.ShortHand {
 		getContentURL := "https://cubox.pro/c/api/bookmark/content"
 		request := gorequest.New().Get(getContentURL).Timeout(time.Second*10).
 			Param("bookmarkId", item.UserSearchEngineID)

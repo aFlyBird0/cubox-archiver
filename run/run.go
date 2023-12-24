@@ -8,7 +8,6 @@ import (
 
 	"github.com/aFlyBird0/cubox-archiver/config"
 	"github.com/aFlyBird0/cubox-archiver/core"
-	"github.com/aFlyBird0/cubox-archiver/core/cubox"
 )
 
 func Run(cfg config.Config) {
@@ -25,9 +24,9 @@ func Run(cfg config.Config) {
 
 // Process 处理数据获取和归档
 // todo 支持多种 cubox 数据源/多个数据源合并
-func Process(source cubox.Source, archivers []core.Archiver) {
+func Process(source core.Source, archivers []core.Archiver) {
 	// 从cubox获取数据源
-	cuboxChan := make(chan *cubox.Item, 100)
+	cuboxChan := make(chan *core.Item, 100)
 	//stop := make(chan struct{})
 	go source.List(cuboxChan)
 
@@ -58,7 +57,7 @@ func Process(source cubox.Source, archivers []core.Archiver) {
 }
 
 // 转换一下专利chan的类型，go-streams的输入是chan any
-func transformChan(in <-chan *cubox.Item, out chan<- any) {
+func transformChan(in <-chan *core.Item, out chan<- any) {
 	for e := range in {
 		out <- e
 	}

@@ -5,10 +5,10 @@ import (
 
 	"github.com/jomei/notionapi"
 
-	"github.com/aFlyBird0/cubox-archiver/core/cubox"
+	"github.com/aFlyBird0/cubox-archiver/core"
 )
 
-func convertTags(tags []cubox.Tag) notionapi.MultiSelectProperty {
+func convertTags(tags []core.Tag) notionapi.MultiSelectProperty {
 	options := make([]notionapi.Option, len(tags))
 	for i, tag := range tags {
 		options[i] = notionapi.Option{
@@ -29,7 +29,7 @@ func convertTime(t time.Time) notionapi.DateProperty {
 	}
 }
 
-func convertType(t cubox.CuboxContentType) notionapi.SelectProperty {
+func convertType(t core.CuboxContentType) notionapi.SelectProperty {
 	return notionapi.SelectProperty{
 		Select: notionapi.Option{
 			Name: t.String(),

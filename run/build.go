@@ -9,15 +9,13 @@ import (
 
 	"github.com/aFlyBird0/cubox-archiver/config"
 	"github.com/aFlyBird0/cubox-archiver/core"
-	cuboxType "github.com/aFlyBird0/cubox-archiver/core/cubox"
 	cuboxImpl "github.com/aFlyBird0/cubox-archiver/impl/cubox"
 	"github.com/aFlyBird0/cubox-archiver/impl/notion"
 )
 
 const defaultNotionDatabaseName = "Cubox归档"
 
-func Build(conf config.Config) (
-	cuboxType.Source, []core.Archiver) {
+func Build(conf config.Config) (core.Source, []core.Archiver) {
 
 	if err := handleNotionDatabaseCreate(conf); err != nil {
 		logrus.Fatalln(err)

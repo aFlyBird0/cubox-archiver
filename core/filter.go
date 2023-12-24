@@ -1,13 +1,10 @@
 package core
 
-import (
-	"github.com/aFlyBird0/cubox-archiver/core/cubox"
-)
-
 type Filter interface {
-	Remain(item *cubox.Item) bool
+	Remain(item *Item) bool
 }
 
+// KeysInitiator 能够获取已有的数据的Keys
 type KeysInitiator interface {
 	ExistingKeys() (map[string]struct{}, error) // 获取已有的数据的Keys
 }
@@ -20,7 +17,7 @@ func NewFilterAllRemain() *AllRemain {
 type AllRemain struct {
 }
 
-func (f *AllRemain) Remain(item *cubox.Item) bool {
+func (f *AllRemain) Remain(item *Item) bool {
 	return true
 }
 
@@ -33,7 +30,7 @@ func NewFilterFirstN(n int) *FirstN {
 	return &FirstN{n: n}
 }
 
-func (f *FirstN) Remain(item *cubox.Item) bool {
+func (f *FirstN) Remain(item *Item) bool {
 	if f.n <= 0 {
 		return false
 	}

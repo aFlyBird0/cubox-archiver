@@ -1,4 +1,4 @@
-package cubox
+package core
 
 import (
 	"fmt"

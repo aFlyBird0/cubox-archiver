@@ -2,7 +2,6 @@ package run
 
 import (
 	"github.com/aFlyBird0/cubox-archiver/core"
-	"github.com/aFlyBird0/cubox-archiver/core/cubox"
 	cuboxImpl "github.com/aFlyBird0/cubox-archiver/impl/cubox"
 )
 
@@ -24,6 +23,6 @@ func (a *archiverAndDelete) ExistingKeys() (map[string]struct{}, error) {
 	return a.Archiver.ExistingKeys()
 }
 
-func (a *archiverAndDelete) Operate(item *cubox.Item) error {
+func (a *archiverAndDelete) Operate(item *core.Item) error {
 	return core.NewOperatorChain(a.Archiver, cuboxImpl.NewDeleteCuboxOperator(a.auth, a.cookie)).Operate(item)
 }

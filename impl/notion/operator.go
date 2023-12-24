@@ -8,11 +8,12 @@ import (
 	"github.com/jomei/notionapi"
 	"github.com/sirupsen/logrus"
 
-	"github.com/aFlyBird0/cubox-archiver/core/cubox"
+	"github.com/aFlyBird0/cubox-archiver/core"
 	"github.com/aFlyBird0/cubox-archiver/util"
 )
 
-func (o *Archiver) Operate(item *cubox.Item) error {
+func (o *Archiver) Operate(item *core.Item) error {
+	//logrus.Infof("开始同步【%s】到Notion", item.Title)
 	_, err := o.createNewPage(item)
 	if err != nil {
 		return fmt.Errorf("create new page: %w", err)
@@ -22,7 +23,7 @@ func (o *Archiver) Operate(item *cubox.Item) error {
 	return nil
 }
 
-func (o *Archiver) createNewPage(item *cubox.Item) (*notionapi.Page, error) {
+func (o *Archiver) createNewPage(item *core.Item) (*notionapi.Page, error) {
 	nameText := notionapi.RichText{
 		Text: &notionapi.Text{Content: item.Title},
 	}

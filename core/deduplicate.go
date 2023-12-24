@@ -2,8 +2,6 @@ package core
 
 import (
 	"sync"
-
-	"github.com/aFlyBird0/cubox-archiver/core/cubox"
 )
 
 type Deduplicate struct {
@@ -38,10 +36,11 @@ func NewDeduplicateWithKeysInitiator(initiator KeysInitiator) (*Deduplicate, err
 	return NewDeduplicateWithKeys(keys), nil
 }
 
-func (d *Deduplicate) Remain(item *cubox.Item) bool {
+func (d *Deduplicate) Remain(item *Item) bool {
 	key := item.UserSearchEngineID
 	d.mu.RLock()
 	if _, ok := d.keys[key]; ok {
+		d.mu.RUnlock()
 		return false
 	}
 	d.mu.RUnlock()

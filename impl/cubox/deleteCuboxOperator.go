@@ -4,7 +4,7 @@ import (
 	"github.com/parnurzeal/gorequest"
 	"go.uber.org/multierr"
 
-	"github.com/aFlyBird0/cubox-archiver/core/cubox"
+	"github.com/aFlyBird0/cubox-archiver/core"
 )
 
 type DeleteCuboxOperator struct {
@@ -16,7 +16,7 @@ func NewDeleteCuboxOperator(auth, cookie string) *DeleteCuboxOperator {
 	return &DeleteCuboxOperator{auth: auth, cookie: cookie}
 }
 
-func (o *DeleteCuboxOperator) Operate(item *cubox.Item) error {
+func (o *DeleteCuboxOperator) Operate(item *core.Item) error {
 	url := "https://cubox.pro/c/api/search_engine/delete/" + item.UserSearchEngineID
 
 	req := gorequest.New().Post(url)

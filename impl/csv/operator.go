@@ -4,7 +4,7 @@ import (
 	"encoding/csv"
 	"os"
 
-	"github.com/aFlyBird0/cubox-archiver/core/cubox"
+	"github.com/aFlyBird0/cubox-archiver/core"
 )
 
 type Operator struct {
@@ -15,7 +15,7 @@ func NewCsvOperator(filename string) *Operator {
 	return &Operator{filename: filename}
 }
 
-func (o *Operator) Operate(item *cubox.Item) error {
+func (o *Operator) Operate(item *core.Item) error {
 	file, err := os.OpenFile(o.filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		return err
