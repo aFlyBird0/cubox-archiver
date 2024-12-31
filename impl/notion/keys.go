@@ -13,7 +13,7 @@ func (o *Archiver) ExistingKeys() (map[string]struct{}, error) {
 	cursor := notionapi.Cursor("")
 	for {
 		query := notionapi.DatabaseQueryRequest{
-			PageSize:    5,
+			PageSize:    100,
 			StartCursor: cursor,
 		}
 

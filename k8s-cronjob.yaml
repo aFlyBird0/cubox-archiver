@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: file-processing-job
+  namespace: default
+spec:
+  schedule: "0 * * * *"  # 每小时执行一次
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: file-processor
+            image: alpine:3.14
+            command: ["/bin/sh"]
+            args: ["/scripts/process.sh"]
+            volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+            - name: data-volume
+              mountPath: /data
+          volumes:
+          - name: script-volume
+            configMap:
+              name: processing-script
+              defaultMode: 0777
+          - name: data-volume
+            persistentVolumeClaim:
+              claimName: data-pvc
+          restartPolicy: OnFailure 

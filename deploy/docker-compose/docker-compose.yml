@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  cubox-archiver:
+    image: aflybird0/cubox-archiver:latest
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
+        # 下载并安装 supercronic
+        wget -q https://github.com/aptible/supercronic/releases/download/v0.2.26/supercronic-linux-amd64 -O /usr/local/bin/supercronic
+        chmod +x /usr/local/bin/supercronic
+
+        # 创建 crontab 文件
+        # 默认每小时执行一次
+        # 如果需要每5分钟执行一次，请改为 */5 * * * *
+        # 如果需要每天20:05执行，请改为 5 20 * * *
+        echo "0 * * * * ./cubox-archiver from-file -f /app/config.yaml" > /crontab
+
+        # 运行 supercronic
+        exec /usr/local/bin/supercronic /crontab
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+    working_dir: /
+    restart: unless-stopped

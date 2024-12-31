@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cubox-archiver
+  namespace: default
+spec:
+  schedule: "0 * * * *"  # 每小时执行一次
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cubox-archiver
+            image: aflybird0/cubox-archiver:latest
+            command: ["./cubox-archiver"]
+            args: ["from-file", "-f", "/config/config.yaml"]
+            volumeMounts:
+            - name: config-volume
+              mountPath: /config
+          volumes:
+          - name: config-volume
+            configMap:
+              name: cubox-archiver-config
+              defaultMode: 0644
+          restartPolicy: OnFailure 
