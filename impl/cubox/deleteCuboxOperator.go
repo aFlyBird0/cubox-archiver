@@ -2,6 +2,7 @@ package cubox
 
 import (
 	"github.com/parnurzeal/gorequest"
+	"github.com/sirupsen/logrus"
 	"go.uber.org/multierr"
 
 	"github.com/aFlyBird0/cubox-archiver/core"
@@ -17,6 +18,7 @@ func NewDeleteCuboxOperator(auth, cookie string) *DeleteCuboxOperator {
 }
 
 func (o *DeleteCuboxOperator) Operate(item *core.Item) error {
+	logrus.Infof("开始删除Cubox文章: id: %s, title: %s", item.UserSearchEngineID, item.Title)
 	url := "https://cubox.pro/c/api/search_engine/delete/" + item.UserSearchEngineID
 
 	req := gorequest.New().Post(url)

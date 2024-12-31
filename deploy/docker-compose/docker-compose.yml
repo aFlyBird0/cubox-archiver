@@ -3,6 +3,11 @@ version: '3'
 services:
   cubox-archiver:
     image: aflybird0/cubox-archiver:latest
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+      - /etc/localtime:/etc/localtime:ro
     entrypoint: [ "/bin/sh", "-c" ]
     command:
       - |
@@ -18,7 +23,5 @@ services:
 
         # 运行 supercronic
         exec /usr/local/bin/supercronic /crontab
-    volumes:
-      - ./config.yaml:/app/config.yaml:ro
     working_dir: /
     restart: unless-stopped
